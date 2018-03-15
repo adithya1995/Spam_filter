@@ -10,6 +10,8 @@ def train:
     p_A = num_spam/float(total)
     p_notA = (total-num_spam)/(float(total))
 
+
+
 #counts the number of times a particular word occurs in an email
 def processEmail(body, label):
     for word in body:
@@ -20,11 +22,15 @@ def processEmail(body, label):
             trainnegative[word] = trainnegative.get(word, 0) + 1
             negative_total += 1
 
+
+            
 #gives the conditional probability p(B_i | A_x)
 def conditional_word(word, spam):
     if spam:
         return (trainpostive[word].get(word,0)+alpha)/(float)(positive_total+alpha*numwords)
     return (trainnegative[word].get(word,0)+alpha)./(float)(negative_total+alpha*numwords)
+
+
 
 #in order to get conditional probability p(B | A_x) i.e for an entire email, we simply take the product of p(B_i | A_x) value for every word in the email
 def conditional_email(body, spam):
@@ -32,6 +38,8 @@ def conditional_email(body, spam):
     for word in body:
         result *= conditional_word(word, spam)
     return result
+
+
 
 #classifies whether an email is spam or not
 def classify(email):
